@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Barra de navegación -->
+<div style="background: #2a5298; padding: 15px; margin-bottom: 30px; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <a href="{% url 'menu' %}" class="nav-btn" style="background: rgba(255,255,255,0.3); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🏠 Inicio</a>
+    <a href="{% url 'horas_pico' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏰ Horas Pico</a>
+    <a href="{% url 'reservaciones_por_dia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📅 Por Día</a>
+    <a href="{% url 'total_por_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Por Estado</a>
+</div>
+
+<h2>🍽️ Cocina Inteligente</h2>
+<p style="color: #666; margin-bottom: 30px;">Sistema de reportes para la toma de decisiones</p>
+
+<div class="menu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+    <a href="{% url 'horas_pico' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">⏰</div>
+        <h3 style="color: #1e3c72;">Horas Pico</h3>
+        <p>Análisis de horarios con mayor demanda para optimizar personal.</p>
+    </a>
+
+    <a href="{% url 'reservaciones_por_dia' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">📅</div>
+        <h3 style="color: #1e3c72;">Reservaciones por Día</h3>
+        <p>Visualiza la actividad diaria y días de mayor afluencia.</p>
+    </a>
+
+    <a href="{% url 'total_por_estado' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">📊</div>
+        <h3 style="color: #1e3c72;">Total por Estado</h3>
+        <p>Distribución de reservaciones confirmadas, canceladas y no-shows.</p>
+    </a>
+</div>
+{% endblock %}

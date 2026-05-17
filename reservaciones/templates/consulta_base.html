@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="margin-bottom: 30px;">
+    <a href="{% url 'menu' %}" class="btn-back">← Volver al Menú</a>
+</div>
+
+<h2 style="margin-bottom: 10px;">{{ titulo }}</h2>
+<p style="color: #666; margin-bottom: 20px;">{{ descripcion }}</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                {% if 'hora_inicio' in consultas.0 %}Hora
+                {% elif 'fecha' in consultas.0 %}Fecha
+                {% else %}Estado
+                {% endif %}
+            </th>
+            <th>Total Reservaciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in consultas %}
+        <tr>
+            <td>
+                {% if item.hora_inicio %}
+                    {{ item.hora_inicio|time:"H:i" }}
+                {% elif item.fecha %}
+                    {{ item.fecha|date:"d/m/Y" }}
+                {% elif item.estado %}
+                    {% if item.estado == 'confirmada' %}
+                        <span class="badge" style="background: #28a745; color: white; padding: 5px 10px; border-radius: 5px;">✓ Confirmada</span>
+                    {% elif item.estado == 'cancelada' %}
+                        <span class="badge" style="background: #dc3545; color: white; padding: 5px 10px; border-radius: 5px;">✗ Cancelada</span>
+                    {% elif item.estado == 'no_show' %}
+                        <span class="badge" style="background: #ffc107; color: black; padding: 5px 10px; border-radius: 5px;">⚠ No Show</span>
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td><strong>{{ item.total }}</strong></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2" style="text-align: center;">No hay datos disponibles</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
