@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Barra de navegación actualizada -->
+<div style="background: #2a5298; padding: 15px; margin-bottom: 30px; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <a href="{% url 'menu' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🏠 Inicio</a>
+    <a href="{% url 'horas_pico' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏰ Horas Pico</a>
+    <a href="{% url 'reservaciones_por_dia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📅 Por Día</a>
+    <a href="{% url 'total_por_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Por Estado</a>
+    <a href="{% url 'clientes_frecuentes' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Clientes</a>
+    <a href="{% url 'mesas_populares' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🪑 Mesas</a>
+    <a href="{% url 'tiempo_promedio_estancia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏱️ Tiempo</a>
+    <a href="{% url 'promedio_personas' %}" class="nav-btn" style="background: rgba(255,255,255,0.3); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Promedio</a>
+    <a href="{% url 'reservaciones_por_personas' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Grupos</a>
+    <a href="{% url 'cantidad_no_shows' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🚫 No-Shows</a>
+</div>
+
+<h2>{{ titulo }}</h2>
+<p style="color: #666; margin-bottom: 20px;">{{ descripcion }}</p>
+
+<div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 30px;">
+    <div style="font-size: 4em; margin-bottom: 10px;">👥</div>
+    <div style="font-size: 3em; color: #1e3c72; font-weight: bold;">{{ promedio }} personas</div>
+    <div style="font-size: 1.2em; color: #666; margin-top: 10px;">
+        Promedio basado en {{ total_reservaciones }} reservaciones
+    </div>
+</div>
+
+<h3>📊 Distribución por tamaño de grupo</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>N° de Personas</th>
+            <th>Cantidad de Reservaciones</th>
+            <th>Porcentaje</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for grupo in distribucion %}
+        <tr>
+            <td>👥 {{ grupo.numero_personas }} persona{% if grupo.numero_personas != 1 %}s{% endif %}</td>
+            <td>{{ grupo.total }} </td>
+            <td>
+                <div style="background: #e0e0e0; border-radius: 10px; overflow: hidden;">
+                    <div style="background: #1e3c72; width: {% widthratio grupo.total total 100 %}%; height: 20px; border-radius: 10px;"></div>
+                </div>
+                <small>{% widthratio grupo.total total 100 %}%</small>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
+    <h3 style="color: #1e3c72;">💡 Decisión estratégica</h3>
+    <p>
+        Conocer el promedio de personas por reservación permite:
+    </p>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li>✅ Configurar adecuadamente las mesas según el tamaño de grupo más común</li>
+        <li>✅ Planificar la distribución del espacio en el restaurante</li>
+        <li>✅ Optimizar el inventario de insumos según los grupos más frecuentes</li>
+        <li>✅ Diseñar promociones especiales para grupos grandes o para parejas</li>
+        <li>✅ Capacitar al personal para atender diferentes tamaños de grupo</li>
+    </ul>
+</div>
+
+<a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
+{% endblock %}

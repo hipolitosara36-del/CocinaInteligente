@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Count
 from .models import Reservacion
+from django.db.models import Count, Q
 from django.db.models import F, ExpressionWrapper, fields
 from datetime import timedelta
 import re
@@ -135,3 +136,86 @@ def tiempo_promedio_estancia(request):
         'tipo': 'tiempo'
     }
     return render(request, 'consulta_tiempo.html', context)
+
+def promedio_personas(request):
+    """Consulta 7: Promedio de personas por reservación"""
+    from django.db.models import Avg
+
+    promedio = Reservacion.objects.aggregate(promedio=Avg('numero_personas'))
+    promedio_valor = round(promedio['promedio'], 2) if promedio['promedio'] else 0
+
+    # Distribución por número de personas
+    distribucion = (Reservacion.objects
+                    .values('numero_personas')
+                    .annotate(total=Count('id'))
+                    .order_by('numero_personas'))
+
+    context = {
+        'promedio': promedio_valor,
+        'distribucion': distribucion,
+        'total_reservaciones': Reservacion.objects.count(),
+        'titulo': 'Promedio de Personas por Reservación',
+        'descripcion': 'Análisis del tamaño promedio de grupos que reservan en el restaurante',
+        'tipo': 'promedio'
+    }
+    return render(request, 'consulta_promedio.html', context)
+
+
+def reservaciones_por_personas(request):
+    """Consulta 8: Número de reservaciones por número de personas"""
+    from django.db.models import Count
+
+    grupos = (Reservacion.objects
+              .values('numero_personas')
+              .annotate(total=Count('id'))
+              .order_by('numero_personas'))
+
+    # Calcular porcentajes
+    total = Reservacion.objects.count()
+    for grupo in grupos:
+        grupo['porcentaje'] = round((grupo['total'] / total) * 100, 1) if total > 0 else 0
+
+    context = {
+        'consultas': grupos,
+        'total': total,
+        'titulo': 'Reservaciones por Número de Personas',
+        'descripcion': 'Distribución de reservaciones según el tamaño del grupo',
+        'tipo': 'grupos'
+    }
+    return render(request, 'consulta_grupos.html', context)
+
+
+def cantidad_no_shows(request):
+    """Consulta 9: Cantidad de No-Shows"""
+    from django.db.models import Count, Q
+
+    no_shows = Reservacion.objects.filter(estado='no_show').count()
+    confirmadas = Reservacion.objects.filter(estado='confirmada').count()
+    canceladas = Reservacion.objects.filter(estado='cancelada').count()
+    total = Reservacion.objects.count()
+
+    porcentaje_no_shows = round((no_shows / total) * 100, 1) if total > 0 else 0
+    porcentaje_confirmadas = round((confirmadas / total) * 100, 1) if total > 0 else 0
+    porcentaje_canceladas = round((canceladas / total) * 100, 1) if total > 0 else 0
+
+    # Últimos no-shows (para identificar patrones)
+    ultimos_no_shows = (Reservacion.objects
+    .filter(estado='no_show')
+    .select_related('cliente', 'mesa')
+    .order_by('-fecha', '-hora_inicio')[:5])
+
+    context = {
+        'no_shows': no_shows,
+        'confirmadas': confirmadas,
+        'canceladas': canceladas,
+        'total': total,
+        'porcentaje_no_shows': porcentaje_no_shows,
+        'porcentaje_confirmadas': porcentaje_confirmadas,
+        'porcentaje_canceladas': porcentaje_canceladas,
+        'ultimos_no_shows': ultimos_no_shows,
+        'titulo': 'Cantidad de No-Shows',
+        'descripcion': 'Clientes que no asistieron a su reservación sin cancelar',
+        'tipo': 'no_shows'
+    }
+    return render(request, 'consulta_no_shows.html', context)
+

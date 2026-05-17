@@ -47,5 +47,23 @@
         <h3 style="color: #1e3c72;">Tiempo de Estancia</h3>
         <p>Calcula la rotación de mesas y optimiza los horarios.</p>
     </a>
+
+    <a href="{% url 'promedio_personas' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">👥</div>
+        <h3 style="color: #1e3c72;">Promedio de Personas</h3>
+        <p>Conoce el tamaño promedio de los grupos que visitan el restaurante.</p>
+    </a>
+
+    <a href="{% url 'reservaciones_por_personas' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">📊</div>
+        <h3 style="color: #1e3c72;">Distribución por Grupos</h3>
+        <p>Analiza qué tamaños de grupo son más frecuentes en tus reservaciones.</p>
+    </a>
+
+    <a href="{% url 'cantidad_no_shows' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">🚫</div>
+        <h3 style="color: #1e3c72;">Cantidad de No-Shows</h3>
+        <p>Clientes que no asisten sin cancelar. Implementa políticas de confirmación.</p>
+    </a>
 </div>
 {% endblock %}
