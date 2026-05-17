@@ -1,40 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div style="margin-bottom: 30px;">
-    <a href="{% url 'menu' %}" class="btn-back">← Volver al Menú</a>
+<!-- Barra de navegación -->
+<div style="background: #2a5298; padding: 15px; margin-bottom: 30px; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <a href="{% url 'menu' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🏠 Inicio</a>
+    <a href="{% url 'horas_pico' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏰ Horas Pico</a>
+    <a href="{% url 'reservaciones_por_dia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📅 Por Día</a>
+    <a href="{% url 'total_por_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Por Estado</a>
+    <a href="{% url 'clientes_frecuentes' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Clientes</a>
+    <a href="{% url 'mesas_populares' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🪑 Mesas</a>
+    <a href="{% url 'tiempo_promedio_estancia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏱️ Tiempo</a>
 </div>
 
-<h2 style="margin-bottom: 10px;">{{ titulo }}</h2>
+<h2>{{ titulo }}</h2>
 <p style="color: #666; margin-bottom: 20px;">{{ descripcion }}</p>
 
 <table class="table">
     <thead>
         <tr>
+            <th>#</th>
             <th>
-                {% if 'hora_inicio' in consultas.0 %}Hora
-                {% elif 'fecha' in consultas.0 %}Fecha
-                {% else %}Estado
+                {% if tipo == 'cliente' %}
+                    Cliente
+                {% elif tipo == 'mesa' %}
+                    Mesa
+                {% elif tipo == 'estado' %}
+                    Estado
+                {% else %}
+                    {% if 'hora_inicio' in consultas.0 %}Hora{% elif 'fecha' in consultas.0 %}Fecha{% else %}Ítem{% endif %}
                 {% endif %}
             </th>
-            <th>Total Reservaciones</th>
+            <th>Total</th>
         </tr>
     </thead>
     <tbody>
         {% for item in consultas %}
         <tr>
+            <td>{{ forloop.counter }}</td>
             <td>
-                {% if item.hora_inicio %}
-                    {{ item.hora_inicio|time:"H:i" }}
-                {% elif item.fecha %}
-                    {{ item.fecha|date:"d/m/Y" }}
-                {% elif item.estado %}
-                    {% if item.estado == 'confirmada' %}
-                        <span class="badge" style="background: #28a745; color: white; padding: 5px 10px; border-radius: 5px;">✓ Confirmada</span>
-                    {% elif item.estado == 'cancelada' %}
-                        <span class="badge" style="background: #dc3545; color: white; padding: 5px 10px; border-radius: 5px;">✗ Cancelada</span>
-                    {% elif item.estado == 'no_show' %}
-                        <span class="badge" style="background: #ffc107; color: black; padding: 5px 10px; border-radius: 5px;">⚠ No Show</span>
+                {% if tipo == 'cliente' %}
+                    👤 {{ item.cliente__nombre }}
+                {% elif tipo == 'mesa' %}
+                    🪑 Mesa {{ item.mesa__numero_mesa }} (Cap. {{ item.mesa__capacidad }})
+                {% else %}
+                    {% if item.hora_inicio %}
+                        ⏰ {{ item.hora_inicio|time:"H:i" }}
+                    {% elif item.fecha %}
+                        📅 {{ item.fecha|date:"d/m/Y" }}
+                    {% elif item.estado %}
+                        {% if item.estado == 'confirmada' %}
+                            <span class="badge" style="background: #28a745; color: white;">✓ Confirmada</span>
+                        {% elif item.estado == 'cancelada' %}
+                            <span class="badge" style="background: #dc3545; color: white;">✗ Cancelada</span>
+                        {% elif item.estado == 'no_show' %}
+                            <span class="badge" style="background: #ffc107; color: white;">⚠ No Show</span>
+                        {% endif %}
+                    {% else %}
+                        {{ item }}
                     {% endif %}
                 {% endif %}
             </td>
@@ -42,11 +64,32 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="2" style="text-align: center;">No hay datos disponibles</td>
+            <td colspan="3" style="text-align: center;">No hay datos disponibles</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
+<div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
+    <h3 style="color: #1e3c72;">💡 Decisión estratégica</h3>
+    <p>
+        {% if titulo == "Horas Pico" %}
+        Esta información permite optimizar la asignación de personal en las horas de mayor demanda, reducir tiempos de espera y mejorar la experiencia del cliente.
+        {% elif titulo == "Reservaciones por Día" %}
+        Identificar los días con mayor y menor actividad permite ajustar horarios del personal, gestionar inventarios y planificar eventos especiales.
+        {% elif titulo == "Total por Estado" %}
+        Conocer el porcentaje de cancelaciones y no-shows ayuda a implementar políticas de confirmación y optimizar la gestión de mesas disponibles.
+        {% elif titulo == "Clientes Frecuentes" %}
+        Identificar a los clientes más leales permite crear programas de fidelización, ofrecer descuentos personalizados y mejorar la retención de clientes.
+        {% elif titulo == "Mesas Más Utilizadas" %}
+        Saber qué mesas se reservan más ayuda a optimizar la distribución del restaurante y planificar el mantenimiento de las mismas.
+        {% elif titulo == "Tiempo Promedio de Estancia" %}
+        El tiempo promedio de estancia permite calcular la rotación de mesas, optimizar la asignación de reservaciones y planificar los horarios de cierre.
+        {% else %}
+        Esta consulta proporciona información valiosa para la toma de decisiones estratégicas en el restaurante.
+        {% endif %}
+    </p>
+</div>
 
+<a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
 {% endblock %}

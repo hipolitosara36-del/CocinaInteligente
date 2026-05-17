@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Barra de navegación -->
+<div style="background: #2a5298; padding: 15px; margin-bottom: 30px; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <a href="{% url 'menu' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🏠 Inicio</a>
+    <a href="{% url 'horas_pico' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏰ Horas Pico</a>
+    <a href="{% url 'reservaciones_por_dia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📅 Por Día</a>
+    <a href="{% url 'total_por_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Por Estado</a>
+    <a href="{% url 'clientes_frecuentes' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Clientes</a>
+    <a href="{% url 'mesas_populares' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🪑 Mesas</a>
+    <a href="{% url 'tiempo_promedio_estancia' %}" class="nav-btn" style="background: rgba(255,255,255,0.3); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏱️ Tiempo</a>
+</div>
+
+<h2>{{ titulo }}</h2>
+<p style="color: #666; margin-bottom: 20px;">{{ descripcion }}</p>
+
+<div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px; padding: 30px; text-align: center; margin-top: 20px;">
+    <div style="font-size: 4em; margin-bottom: 10px;">⏱️</div>
+    <div style="font-size: 3em; color: #1e3c72; font-weight: bold;">{{ promedio_texto }}</div>
+    <div style="font-size: 1.2em; color: #666; margin-top: 10px;">
+        Promedio basado en {{ total_reservaciones }} reservaciones
+    </div>
+    <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 10px;">
+        <strong>📊 Equivalente:</strong> {{ promedio_horas }} horas en formato decimal
+    </div>
+</div>
+
+<div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
+    <h3 style="color: #1e3c72;">💡 Decisión estratégica</h3>
+    <p>
+        El tiempo promedio de estancia permite:
+    </p>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li>✅ Calcular la rotación de mesas por noche</li>
+        <li>✅ Optimizar la asignación de reservaciones</li>
+        <li>✅ Estimar la capacidad real del restaurante</li>
+        <li>✅ Planificar los horarios de cierre</li>
+        <li>✅ Mejorar la experiencia del cliente evitando esperas</li>
+    </ul>
+</div>
+
+<a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
+{% endblock %}

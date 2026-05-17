@@ -30,5 +30,22 @@
         <h3 style="color: #1e3c72;">Total por Estado</h3>
         <p>Distribución de reservaciones confirmadas, canceladas y no-shows.</p>
     </a>
+
+    <a href="{% url 'clientes_frecuentes' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">👥</div>
+        <h3 style="color: #1e3c72;">Clientes Frecuentes</h3>
+        <p>Identifica los clientes más leales para programas de fidelización.</p>
+    </a>
+
+    <a href="{% url 'mesas_populares' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">🪑</div>
+        <h3 style="color: #1e3c72;">Mesas Más Utilizadas</h3>
+        <p>Optimiza la distribución del restaurante según las mesas más demandadas.</p>
+    </a>
+
+    <a href="{% url 'tiempo_promedio_estancia' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;"><div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">⏱️</div>
+        <h3 style="color: #1e3c72;">Tiempo de Estancia</h3>
+        <p>Calcula la rotación de mesas y optimiza los horarios.</p>
+    </a>
 </div>
 {% endblock %}
