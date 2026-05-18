@@ -28,13 +28,6 @@
     </div>
 </div>
 
-<div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px; padding: 30px; text-align: center; margin-top: 20px;">
-    <div style="font-size: 4em; margin-bottom: 10px;">⏱️</div>
-    <div style="font-size: 3em; color: #1e3c72; font-weight: bold;">{{ promedio_texto }}</div>
-    <div style="font-size: 1.2em; color: #666; margin-top: 10px;">
-        Promedio basado en {{ total_reservaciones }} reservaciones
-    </div>
-</div>
 
 <a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
 {% endblock %}
