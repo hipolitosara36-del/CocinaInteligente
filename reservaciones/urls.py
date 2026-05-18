@@ -19,4 +19,8 @@ urlpatterns = [
     path('promedio-personas/', views.promedio_personas, name='promedio_personas'),
     path('reservaciones-por-personas/', views.reservaciones_por_personas, name='reservaciones_por_personas'),
     path('cantidad-no-shows/', views.cantidad_no_shows, name='cantidad_no_shows'),
+
+# Consultas 10, 11
+    path('reservaciones-dia-estado/', views.reservaciones_dia_estado, name='reservaciones_dia_estado'),
+    path('promedio-calificaciones/', views.promedio_calificaciones, name='promedio_calificaciones'),
 ]

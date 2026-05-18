@@ -62,5 +62,18 @@
         <h3 style="color: #1e3c72;">Cantidad de No-Shows</h3>
         <p>Clientes que no asisten sin cancelar. Implementa políticas de confirmación.</p>
     </a>
+
+    <a href="{% url 'reservaciones_dia_estado' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">📋</div>
+        <h3 style="color: #1e3c72;">Reservaciones por Día y Estado</h3>
+        <p>Tabla cruzada que muestra el estado de reservaciones (confirmada, cancelada, no-show) para cada día.</p>
+    </a>
+
+    <a href="{% url 'promedio_calificaciones' %}" class="card" style="background: #f8f9fa; border-radius: 15px; padding: 25px; text-decoration: none; color: #333; transition: transform 0.3s; display: block;">
+        <div class="card-icon" style="font-size: 3em; margin-bottom: 15px;">⭐</div>
+        <h3 style="color: #1e3c72;">Promedio de Calificación</h3>
+        <p>Mide la satisfacción del cliente a través de reseñas y calificaciones (1 a 5 estrellas).</p>
+    </a>
+
 </div>
 {% endblock %}

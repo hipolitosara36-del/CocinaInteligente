@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="background: #2a5298; padding: 15px; margin-bottom: 30px; border-radius: 10px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <a href="{% url 'menu' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🏠 Inicio</a>
+    <a href="{% url 'horas_pico' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏰ Horas Pico</a>
+    <a href="{% url 'reservaciones_por_dia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📅 Por Día</a>
+    <a href="{% url 'total_por_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Por Estado</a>
+    <a href="{% url 'clientes_frecuentes' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Clientes</a>
+    <a href="{% url 'mesas_populares' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🪑 Mesas</a>
+    <a href="{% url 'tiempo_promedio_estancia' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⏱️ Tiempo</a>
+    <a href="{% url 'promedio_personas' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">👥 Promedio</a>
+    <a href="{% url 'reservaciones_por_personas' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📊 Grupos</a>
+    <a href="{% url 'cantidad_no_shows' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">🚫 No-Shows</a>
+    <a href="{% url 'reservaciones_dia_estado' %}" class="nav-btn" style="background: rgba(255,255,255,0.2); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">📋 Día+Estado</a>
+    <a href="{% url 'promedio_calificaciones' %}" class="nav-btn" style="background: rgba(255,255,255,0.3); padding: 10px 20px; color: white; text-decoration: none; border-radius: 8px;">⭐ Calificación</a>
+</div>
+
+<h2>{{ titulo }}</h2>
+<p style="color: #666; margin-bottom: 20px;">{{ descripcion }}</p>
+
+<!-- Tarjeta de promedio -->
+<div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 30px;">
+    <div style="font-size: 4em; margin-bottom: 10px;">⭐</div>
+    <div style="font-size: 3em; color: #1e3c72; font-weight: bold;">{{ promedio }} / 5.0</div>
+    <div style="font-size: 1.2em; color: #666; margin-top: 10px;">
+        Basado en {{ total_resenas }} reseñas de clientes
+    </div>
+    <!-- Estrellas visuales -->
+    <div style="margin-top: 15px; font-size: 2em; color: #ffc107;">
+        {% for i in "12345"|make_list %}
+            {% if forloop.counter <= promedio|floatformat:0 %}
+                ★
+            {% else %}
+                ☆
+            {% endif %}
+        {% endfor %}
+        <span style="font-size: 0.8em; color: #666; margin-left: 10px;">({{ promedio }} estrellas)</span>
+    </div>
+</div>
+
+<!-- Distribución de calificaciones -->
+<h3>📊 Distribución de calificaciones</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Calificación</th>
+            <th>Cantidad</th>
+            <th>Porcentaje</th>
+            <th>Gráfico</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in distribucion %}
+        <tr>
+            <td>
+                {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= item.estrellas %}⭐{% else %}☆{% endif %}
+                {% endfor %}
+                ({{ item.estrellas }} estrella{% if item.estrellas != 1 %}s{% endif %})
+            </td>
+            <td>{{ item.count }}</td>
+            <td>{{ item.porcentaje }}%</td>
+            <td>
+                <div style="background: #e0e0e0; border-radius: 10px; overflow: hidden; width: 200px;">
+                    <div style="background: #ffc107; width: {{ item.porcentaje }}%; height: 25px; border-radius: 10px;"></div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Últimas reseñas -->
+<h3>📝 Últimas reseñas</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Calificación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resena in ultimas_resenas %}
+        <tr>
+            <td>{{ resena.reservacion.fecha|date:"d/m/Y" }} {{ resena.reservacion.hora_inicio|time:"H:i" }}</td>
+            <td>{{ resena.reservacion.cliente.nombre }}</td>
+            <td>
+                {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= resena.calificacion %}⭐{% else %}☆{% endif %}
+                {% endfor %}
+                ({{ resena.calificacion }}/5)
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center;">No hay reseñas registradas</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 30px; padding: 20px; background: {{ color_recomendacion }}20; border-radius: 10px; border-left: 5px solid {{ color_recomendacion }};">
+    <h3 style="color: {{ color_recomendacion }};">💡 Recomendación estratégica</h3>
+    <p>{{ recomendacion }}</p>
+</div>
+
+<div style="margin-top: 20px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
+    <h3 style="color: #1e3c72;">📈 Decisiones basadas en calificaciones</h3>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li>✅ Identificar fortalezas y áreas de mejora del servicio</li>
+        <li>✅ Capacitar al personal en base a quejas recurrentes</li>
+        <li>✅ Implementar encuestas de satisfacción más detalladas</li>
+        <li>✅ Ofrecer incentivos a clientes que dejan reseñas</li>
+        <li>✅ Responder a reseñas negativas para mejorar la imagen</li>
+        <li>✅ Premiar al personal con mejores calificaciones</li>
+    </ul>
+</div>
+
+<a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
+{% endblock %}

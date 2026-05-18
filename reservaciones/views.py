@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Count
-from .models import Reservacion
+from .models import Reservacion, Resena
 from django.db.models import Count, Q
 from django.db.models import F, ExpressionWrapper, fields
 from datetime import timedelta
@@ -218,4 +218,113 @@ def cantidad_no_shows(request):
         'tipo': 'no_shows'
     }
     return render(request, 'consulta_no_shows.html', context)
+
+
+def reservaciones_dia_estado(request):
+    """Consulta 10: Reservaciones por día y estado (tabla cruzada)"""
+    from django.db.models import Count, Q
+
+    # Obtener todas las fechas únicas
+    fechas = Reservacion.objects.values('fecha').distinct().order_by('fecha')
+
+    # Estados posibles
+    estados = ['confirmada', 'cancelada', 'no_show']
+    estados_nombres = {
+        'confirmada': '✓ Confirmada',
+        'cancelada': '✗ Cancelada',
+        'no_show': '⚠ No Show'
+    }
+    estados_colores = {
+        'confirmada': '#28a745',
+        'cancelada': '#dc3545',
+        'no_show': '#ffc107'
+    }
+
+    # Construir tabla de datos
+    datos_por_dia = []
+    total_por_estado = {estado: 0 for estado in estados}
+
+    for fecha in fechas:
+        fila = {
+            'fecha': fecha['fecha'],
+            'total': 0,
+            'estados': {}
+        }
+        for estado in estados:
+            count = Reservacion.objects.filter(fecha=fecha['fecha'], estado=estado).count()
+            fila['estados'][estado] = count
+            fila['total'] += count
+            total_por_estado[estado] += count
+
+        # Solo agregar si tiene al menos una reservación
+        if fila['total'] > 0:
+            datos_por_dia.append(fila)
+
+    context = {
+        'datos_por_dia': datos_por_dia,
+        'estados': estados,
+        'estados_nombres': estados_nombres,
+        'estados_colores': estados_colores,
+        'total_por_estado': total_por_estado,
+        'total_general': sum(total_por_estado.values()),
+        'titulo': 'Reservaciones por Día y Estado',
+        'descripcion': 'Distribución detallada de reservaciones: confirmadas, canceladas y no-shows por fecha'
+    }
+    return render(request, 'consulta_dia_estado.html', context)
+
+
+def promedio_calificaciones(request):
+    """Consulta 11: Promedio de calificación de reseñas"""
+    from django.db.models import Avg, Count
+
+    # Promedio general
+    promedio = Resena.objects.aggregate(
+        promedio=Avg('calificacion'),
+        total=Count('id')
+    )
+
+    promedio_valor = round(promedio['promedio'], 2) if promedio['promedio'] else 0
+    total_resenas = promedio['total'] or 0
+
+    # Distribución de calificaciones (1 a 5 estrellas)
+    distribucion = []
+    for i in range(1, 6):
+        count = Resena.objects.filter(calificacion=i).count()
+        porcentaje = round((count / total_resenas) * 100, 1) if total_resenas > 0 else 0
+        distribucion.append({
+            'estrellas': i,
+            'count': count,
+            'porcentaje': porcentaje
+        })
+
+    # Últimas reseñas
+    ultimas_resenas = (Resena.objects
+    .select_related('reservacion', 'reservacion__cliente')
+    .order_by('-reservacion__fecha', '-reservacion__hora_inicio')[:5])
+
+    # Recomendación según el promedio
+    if promedio_valor >= 4.5:
+        recomendacion = "Excelente servicio. Mantener la calidad y considerar programa de fidelización."
+        color = "#28a745"
+    elif promedio_valor >= 4.0:
+        recomendacion = "Buen servicio. Identificar áreas de oportunidad para llegar a excelencia."
+        color = "#17a2b8"
+    elif promedio_valor >= 3.0:
+        recomendacion = "Servicio aceptable. Revisar quejas recurrentes y mejorar puntos débiles."
+        color = "#ffc107"
+    else:
+        recomendacion = "Atención prioritaria. Realizar encuestas para identificar problemas graves."
+        color = "#dc3545"
+
+    context = {
+        'promedio': promedio_valor,
+        'total_resenas': total_resenas,
+        'distribucion': distribucion,
+        'ultimas_resenas': ultimas_resenas,
+        'recomendacion': recomendacion,
+        'color_recomendacion': color,
+        'titulo': 'Promedio de Calificación de Reseñas',
+        'descripcion': 'Análisis de satisfacción del cliente basado en reseñas y calificaciones'
+    }
+    return render(request, 'consulta_calificaciones.html', context)
 
