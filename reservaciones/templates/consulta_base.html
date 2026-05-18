@@ -75,26 +75,5 @@
     </tbody>
 </table>
 
-<div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
-    <h3 style="color: #1e3c72;">💡 Decisión estratégica</h3>
-    <p>
-        {% if titulo == "Horas Pico" %}
-        Esta información permite optimizar la asignación de personal en las horas de mayor demanda, reducir tiempos de espera y mejorar la experiencia del cliente.
-        {% elif titulo == "Reservaciones por Día" %}
-        Identificar los días con mayor y menor actividad permite ajustar horarios del personal, gestionar inventarios y planificar eventos especiales.
-        {% elif titulo == "Total por Estado" %}
-        Conocer el porcentaje de cancelaciones y no-shows ayuda a implementar políticas de confirmación y optimizar la gestión de mesas disponibles.
-        {% elif titulo == "Clientes Frecuentes" %}
-        Identificar a los clientes más leales permite crear programas de fidelización, ofrecer descuentos personalizados y mejorar la retención de clientes.
-        {% elif titulo == "Mesas Más Utilizadas" %}
-        Saber qué mesas se reservan más ayuda a optimizar la distribución del restaurante y planificar el mantenimiento de las mismas.
-        {% elif titulo == "Tiempo Promedio de Estancia" %}
-        El tiempo promedio de estancia permite calcular la rotación de mesas, optimizar la asignación de reservaciones y planificar los horarios de cierre.
-        {% else %}
-        Esta consulta proporciona información valiosa para la toma de decisiones estratégicas en el restaurante.
-        {% endif %}
-    </p>
-</div>
-
 <a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
 {% endblock %}

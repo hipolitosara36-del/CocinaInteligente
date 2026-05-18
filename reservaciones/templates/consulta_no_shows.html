@@ -72,27 +72,5 @@
     </tbody>
 </table>
 
-<div style="margin-top: 30px; padding: 20px; background: #f0f4ff; border-radius: 10px;">
-    <h3 style="color: #1e3c72;">💡 Decisión estratégica</h3>
-    <p>
-        El análisis de No-Shows permite:
-    </p>
-    <ul style="margin-left: 20px; margin-top: 10px;">
-        <li>✅ Implementar políticas de confirmación (recordatorios por WhatsApp/email)</li>
-        <li>✅ Solicitar depósitos o tarjeta de crédito para reservaciones en horas pico</li>
-        <li>✅ Identificar clientes problemáticos que frecuentemente no asisten</li>
-        <li>✅ Optimizar la asignación de mesas (sobreventa controlada si hay muchos No-Shows)</li>
-        <li>✅ Reducir pérdidas económicas por mesas vacías</li>
-        <li>✅ Mejorar la experiencia de clientes que sí asisten al tener mejor disponibilidad</li>
-    </ul>
-
-    {% if porcentaje_no_shows > 10 %}
-    <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 10px; margin-top: 15px;">
-        <strong>⚠️ Alerta:</strong> El {{ porcentaje_no_shows }}% de No-Shows es alto.
-        Se recomienda implementar un sistema de confirmación automática.
-    </div>
-    {% endif %}
-</div>
-
 <a href="{% url 'menu' %}" class="btn-back" style="display: inline-block; margin-top: 20px;">← Volver al Menú</a>
 {% endblock %}
