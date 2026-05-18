@@ -11,16 +11,16 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="68e4981f-20a6-4ebb-8693-a8480202b728" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
-        <tools />
-      </assistant-state>
       <assistant-state connection-id="68e4981f-20a6-4ebb-8693-a8480202b728" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
       </assistant-state>
-      <assistant-state connection-id="a3085c46-bb80-49f7-af36-95cac8ecbf4b" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="68e4981f-20a6-4ebb-8693-a8480202b728" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
       <assistant-state connection-id="a3085c46-bb80-49f7-af36-95cac8ecbf4b" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
+        <tools />
+      </assistant-state>
+      <assistant-state connection-id="a3085c46-bb80-49f7-af36-95cac8ecbf4b" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
       </assistant-state>
     </assistants>
@@ -37,7 +37,7 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="a3085c46-bb80-49f7-af36-95cac8ecbf4b">
       <console name="Connection" type="STANDARD" schema="main" session="Main" />
-      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[#1.Horas con mas reservas 
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main">#1.Horas con mas reservas 
 SELECT hora_inicio, COUNT(*) as total 
 FROM reservaciones_reservacion 
 GROUP BY hora_inicio 
@@ -95,7 +95,7 @@ SELECT 'Mesa ' || m.numero_mesa as mesa, COUNT(*) as total_usos
 FROM reservaciones_reservacion r
 JOIN reservaciones_mesa m ON r.mesa_id = m.id
 GROUP BY m.numero_mesa
-ORDER BY total_usos DESC;]]></console>
+ORDER BY total_usos DESC;</console>
     </connection>
     <connection id="68e4981f-20a6-4ebb-8693-a8480202b728">
       <console name="Connection 1" type="STANDARD" schema="main" session="Main" />
@@ -105,9 +105,7 @@ ORDER BY total_usos DESC;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a3085c46-bb80-49f7-af36-95cac8ecbf4b" object-ref="consoles/Connection 1" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabasePrerequisiteManager">
     <prerequisites />
@@ -161,7 +159,7 @@ ORDER BY total_usos DESC;]]></console>
           <session-user value="" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />

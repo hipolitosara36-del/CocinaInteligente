@@ -32,7 +32,7 @@
         {% for item in consultas %}
         <tr>
             <td><strong>{{ item.numero_personas }}</strong> persona{% if item.numero_personas != 1 %}s{% endif %}</td>
-            <td>{{ item.total }} {% widthratio item.total total 100 %}%</td>
+            <td>{{ item.total }}</td>
             <td>{{ item.porcentaje }}%</td>
             <td>
                 <div style="background: #e0e0e0; border-radius: 10px; overflow: hidden; width: 150px;">
