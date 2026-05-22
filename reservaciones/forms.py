@@ -1,5 +1,6 @@
 from django import forms
 from .models import Reservacion, Cliente, Mesa
+from platillos.models import Platillo, Categoria
 
 
 class ReservacionForm(forms.ModelForm):
@@ -35,6 +36,7 @@ class ReservacionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         # Personalizar opciones vacías
         self.fields['cliente'].empty_label = "Seleccione un cliente existente"
         self.fields['mesa'].empty_label = "Seleccione una mesa"
@@ -49,3 +51,60 @@ class ReservacionForm(forms.ModelForm):
             self.instance.cliente = cliente
 
         return super().save(commit)
+
+
+
+# Formulario para el crud de platillos
+
+class PlatilloForm(forms.ModelForm):
+
+    class Meta:
+        model = Platillo
+
+        fields = [
+            'nombre',
+            'descripcion',
+            'precio',
+            'categoria',
+            'disponible',
+            'imagen'
+        ]
+
+        widgets = {
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ej: Tacos al Pastor'
+            }),
+
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Descripción del platillo'
+            }),
+
+            'precio': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01'
+            }),
+
+            'categoria': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+
+            'disponible': forms.CheckboxInput(attrs={
+                'class': 'form-check-input'
+            }),
+
+            'imagen': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
+        labels = {
+            'nombre': 'Nombre del platillo',
+            'descripcion': 'Descripción',
+            'precio': 'Precio ($)',
+            'categoria': 'Categoría',
+            'disponible': '¿Disponible?',
+            'imagen': 'Imagen del platillo',
+        }
