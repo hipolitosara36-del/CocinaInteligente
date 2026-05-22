@@ -169,14 +169,14 @@
 
                     {% if platillo.imagen %}
 
-                        <img src="{{ platillo.imagen.url }}"
-                             width="250"
-                             style="
-                                border-radius: 24px;
-                                object-fit: cover;
-                                box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-                             ">
-
+<img src="{{ platillo.imagen.url }}"
+     style="
+        width: 320px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 25px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+     ">
                     {% else %}
 
                         <div style="
