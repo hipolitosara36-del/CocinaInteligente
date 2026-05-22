@@ -105,9 +105,7 @@ ORDER BY total_usos DESC;</console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="a3085c46-bb80-49f7-af36-95cac8ecbf4b" object-ref="consoles/Connection 1" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabasePrerequisiteManager">
     <prerequisites />
@@ -161,7 +159,7 @@ ORDER BY total_usos DESC;</console>
           <session-user value="" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />
