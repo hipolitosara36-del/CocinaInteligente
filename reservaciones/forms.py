@@ -54,7 +54,7 @@ class ReservacionForm(forms.ModelForm):
 
 
 
-# Formulario para el crud de platilloos
+# Formulario para el crud de platillooos
 
 class PlatilloForm(forms.ModelForm):
 
