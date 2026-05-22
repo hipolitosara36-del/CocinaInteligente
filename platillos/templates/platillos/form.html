@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+">
+
+    <div style="
+        background: linear-gradient(135deg, #243b6b, #2f4f90);
+        width: 100%;
+        max-width: 700px;
+        padding: 45px;
+        border-radius: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    ">
+
+        <!-- Título -->
+
+        <div style="
+            text-align: center;
+            margin-bottom: 35px;
+        ">
+
+            <h1 style="
+                color: white;
+                margin: 0;
+                font-size: 2.6rem;
+            ">
+
+                🍔 {{ titulo }}
+
+            </h1>
+
+            <div style="
+                width: 90px;
+                height: 4px;
+                background: white;
+                margin: 15px auto 0;
+                border-radius: 20px;
+            "></div>
+
+        </div>
+
+        <!-- Formulario -->
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div style="
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+            ">
+
+                <!-- Nombre -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 8px;
+                    ">
+
+                        Nombre del Platillo
+
+                    </label>
+
+                    {{ form.nombre }}
+
+                </div>
+
+                <!-- Descripción -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 8px;
+                    ">
+
+                        Descripción
+
+                    </label>
+
+                    {{ form.descripcion }}
+
+                </div>
+
+                <!-- Precio -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 8px;
+                    ">
+
+                        Precio
+
+                    </label>
+
+                    {{ form.precio }}
+
+                </div>
+
+                <!-- Categoría -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 8px;
+                    ">
+
+                        Categoría
+
+                    </label>
+
+                    {{ form.categoria }}
+
+                </div>
+
+                <!-- Disponible -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 12px;
+                    ">
+
+                        Disponibilidad
+
+                    </label>
+
+                    <div style="
+                        display: flex;
+                        gap: 20px;
+                        align-items: center;
+                        flex-wrap: wrap;
+                    ">
+
+                        <!-- Disponible -->
+
+                        <label style="
+                            background: rgba(255,255,255,0.12);
+                            color: white;
+                            padding: 12px 18px;
+                            border-radius: 14px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">
+
+                            <input type="radio"
+                                   name="disponible"
+                                   value="True"
+
+                                   {% if form.instance.disponible %}
+                                       checked
+                                   {% endif %}
+                            >
+
+                            ✅ Disponible
+
+                        </label>
+
+                        <!-- No disponible -->
+
+                        <label style="
+                            background: rgba(255,255,255,0.12);
+                            color: white;
+                            padding: 12px 18px;
+                            border-radius: 14px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">
+
+                            <input type="radio"
+                                   name="disponible"
+                                   value="False"
+
+                                   {% if not form.instance.disponible %}
+                                       checked
+                                   {% endif %}
+                            >
+
+                            ❌ No Disponible
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- Imagen -->
+
+                <div>
+
+                    <label style="
+                        color: white;
+                        font-weight: bold;
+                        display: block;
+                        margin-bottom: 8px;
+                    ">
+
+                        Imagen
+
+                    </label>
+
+                    {{ form.imagen }}
+
+                </div>
+
+                <!-- Botones -->
+
+                <div style="
+                    display: flex;
+                    gap: 15px;
+                    margin-top: 15px;
+                    flex-wrap: wrap;
+                ">
+
+                    <button type="submit"
+                            style="
+                                background: linear-gradient(135deg, #60a5fa, #3b82f6);
+                                border: none;
+                                color: white;
+                                padding: 14px 28px;
+                                border-radius: 14px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+                            ">
+
+                        💾 Guardar
+
+                    </button>
+
+                    <a href="/platillos/"
+                       style="
+                            background: white;
+                            color: #243b6b;
+                            padding: 14px 28px;
+                            border-radius: 14px;
+                            text-decoration: none;
+                            font-weight: bold;
+                       ">
+
+                        ⬅️ Volver
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

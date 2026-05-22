@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+">
+
+    <div style="
+        background: white;
+        width: 100%;
+        max-width: 950px;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    ">
+
+        <div style="
+            display: flex;
+            flex-wrap: wrap;
+        ">
+
+            <!-- Imagen -->
+            <div style="
+                flex: 1;
+                min-width: 300px;
+                background: #f4f4f4;
+            ">
+
+                {% if platillo.imagen %}
+
+                    <img src="{{ platillo.imagen.url }}"
+                         style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                         ">
+
+                {% else %}
+
+                    <div style="
+                        height: 100%;
+                        min-height: 400px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        color: #999;
+                        font-size: 30px;
+                    ">
+
+                        🍽️ Sin imagen
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- Información -->
+            <div style="
+                flex: 1;
+                min-width: 300px;
+                padding: 40px;
+            ">
+
+                <h1 style="
+                    color: #243b6b;
+                    font-size: 2.5rem;
+                    margin-bottom: 20px;
+                ">
+                    {{ platillo.nombre }}
+                </h1>
+
+                <p style="
+                    color: #555;
+                    line-height: 1.8;
+                    font-size: 17px;
+                    margin-bottom: 25px;
+                ">
+                    {{ platillo.descripcion }}
+                </p>
+
+                <!-- Precio -->
+                <div style="
+                    background: #eef4ff;
+                    padding: 15px 20px;
+                    border-radius: 15px;
+                    margin-bottom: 18px;
+                ">
+
+                    <strong style="color: #1e3c72;">
+                        💲 Precio:
+                    </strong>
+
+                    <span style="
+                        font-size: 22px;
+                        font-weight: bold;
+                        color: #243b6b;
+                    ">
+                        ${{ platillo.precio }}
+                    </span>
+
+                </div>
+
+                <!-- Categoría -->
+                <div style="
+                    margin-bottom: 18px;
+                    font-size: 17px;
+                ">
+
+                    <strong>
+                        📂 Categoría:
+                    </strong>
+
+                    {% if platillo.categoria %}
+                        {{ platillo.categoria }}
+                    {% else %}
+                        Sin categoría
+                    {% endif %}
+
+                </div>
+
+                <!-- Disponibilidad -->
+                <div style="
+                    margin-bottom: 30px;
+                    font-size: 17px;
+                ">
+
+                    <strong>
+                        📌 Disponible:
+                    </strong>
+
+                    {% if platillo.disponible %}
+
+                        <span style="
+                            background: #d4edda;
+                            color: #155724;
+                            padding: 6px 12px;
+                            border-radius: 10px;
+                            font-weight: bold;
+                        ">
+
+                            ✅ Sí
+
+                        </span>
+
+                    {% else %}
+
+                        <span style="
+                            background: #f8d7da;
+                            color: #721c24;
+                            padding: 6px 12px;
+                            border-radius: 10px;
+                            font-weight: bold;
+                        ">
+
+                            ❌ No
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- Botones -->
+                <div style="
+                    display: flex;
+                    gap: 15px;
+                    flex-wrap: wrap;
+                ">
+
+                    <a href="/platillos/editar/{{ platillo.id }}/"
+                       style="
+                            background: #ffc107;
+                            color: black;
+                            padding: 12px 22px;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            font-weight: bold;
+                       ">
+
+                        ✏️ Editar
+
+                    </a>
+
+                    <a href="/platillos/eliminar/{{ platillo.id }}/"
+                       style="
+                            background: #dc3545;
+                            color: white;
+                            padding: 12px 22px;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            font-weight: bold;
+                       ">
+
+                        🗑️ Eliminar
+
+                    </a>
+
+                    <a href="/platillos/"
+                       style="
+                            background: #2a5298;
+                            color: white;
+                            padding: 12px 22px;
+                            border-radius: 12px;
+                            text-decoration: none;
+                            font-weight: bold;
+                       ">
+
+                        ⬅️ Volver
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

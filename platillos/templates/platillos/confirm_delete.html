@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+">
+
+    <div style="
+        background: white;
+        padding: 40px;
+        border-radius: 25px;
+        max-width: 500px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    ">
+
+        <div style="font-size: 70px; margin-bottom: 20px;">
+            🗑️
+        </div>
+
+        <h1 style="
+            color: #dc3545;
+            margin-bottom: 15px;
+        ">
+            Eliminar Platillo
+        </h1>
+
+        <p style="
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 30px;
+        ">
+
+            ¿Seguro que deseas eliminar el platillo:
+
+            <strong>
+                "{{ platillo.nombre }}"
+            </strong>?
+
+        </p>
+
+        {% if platillo.imagen %}
+            <img src="{{ platillo.imagen.url }}"
+                 width="220"
+                 style="
+                    border-radius: 15px;
+                    margin-bottom: 25px;
+                 ">
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div style="
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+            ">
+
+                <button type="submit"
+                        style="
+                            background: #dc3545;
+                            color: white;
+                            border: none;
+                            padding: 12px 25px;
+                            border-radius: 12px;
+                            font-weight: bold;
+                            cursor: pointer;
+                        ">
+
+                    🗑️ Sí, eliminar
+
+                </button>
+
+                <a href="/platillos/"
+                   style="
+                        background: #e9ecef;
+                        color: #333;
+                        padding: 12px 25px;
+                        border-radius: 12px;
+                        text-decoration: none;
+                        font-weight: bold;
+                   ">
+
+                    ⬅️ Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
